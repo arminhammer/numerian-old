@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('numerian')
-  .controller('MainCtrl', function ($scope) {
+  .controller('MainCtrl', ['$scope', '$log', function ($scope, $log) {
+
     $scope.awesomeThings = [
       {
         'title': 'AngularJS',
@@ -52,7 +53,45 @@ angular.module('numerian')
         'logo': 'ui-bootstrap.png'
       }
     ];
+
+    $scope.files = [{
+      title: 'Log 1',
+      content: 'Line 1\n' +
+      'Line 2 \n' +
+      'Line 3\n',
+      definition: 'test1',
+      result: ''
+    }];
+
+    $scope.definition = {
+      test1: {
+        patterns: {
+          lineCount: {
+            name: 'Lines',
+            type: 'count',
+            match: 'Line'
+          }
+        }
+      }
+    };
+
+    angular.forEach($scope.files, function(file) {
+
+      var def = $scope.definition[file.definition];
+
+      angular.forEach(def.patterns, function(pattern) {
+
+        var regex = new RegExp(pattern.match, 'g');
+
+        file.result[pattern] = file.content.match(regex);
+
+        console.log(file);
+      })
+
+    });
+
     angular.forEach($scope.awesomeThings, function(awesomeThing) {
       awesomeThing.rank = Math.random();
     });
-  });
+
+  }]);
