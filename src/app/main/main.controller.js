@@ -56,21 +56,33 @@ angular.module('numerian')
 
     $scope.files = [
       {
-      title: 'Log 1',
-      content: 'Line 1\n' +
-      'Line 2 \n' +
-      'Line 3\n',
-      definition: 'test1',
-      results: {}
+        title: 'Log 1',
+        content: 'Line 1 Object\n' +
+        'Line 2 Object\n' +
+        'Line 3\n',
+        definition: 'test1',
+        results: {
+          count: {
+            hits: [[]],
+            series: [],
+            labels: []
+          }
+        }
       },
       {
         title: 'Log 2',
-        content: 'Line 4\n' +
+        content: 'Line 4 Object\n' +
         'Line 5 \n' +
-        'Line 6\n' +
-        'Line 7\n',
+        'Line 6 Object\n' +
+        'Line 7 Object\n',
         definition: 'test1',
-        results: {}
+        results: {
+          count: {
+            hits: [[]],
+            series: [],
+            labels: []
+          }
+        }
       },
       {
         title: 'WebStorm GC Log',
@@ -105,7 +117,13 @@ angular.module('numerian')
         '2015-04-25T11:55:49.204+0500: 5.031: [GC (Allocation Failure) 5.031: [ParNew: 39296K->4352K(39296K), 0.0069660 secs] 51638K->20000K(126720K), 0.0070254 secs] [Times: user=0.02 sys=0.00, real=0.01 secs]' +
         '2015-04-25T11:55:50.005+0500: 5.832: [GC (Allocation Failure) 5.832: [ParNew: 39296K->4352K(39296K), 0.0196901 secs] 54944K->28819K(126720K), 0.0197474 secs] [Times: user=0.06 sys=0.00, real=0.02 secs]',
         definition: 'Java GC',
-        results: {}
+        results: {
+          count: {
+            hits: [[]],
+            series: [],
+            labels: []
+          }
+        }
       }
     ];
 
@@ -116,6 +134,11 @@ angular.module('numerian')
             name: 'Lines',
             type: 'count',
             match: 'Line'
+          },
+          {
+            name: 'Objects',
+            type: 'count',
+            match: 'Object'
           }
         ]
       },
@@ -123,7 +146,7 @@ angular.module('numerian')
         patterns: [
           {
             name: 'Java GC',
-            type: 'timeseries',
+            type: 'count',
             match: '(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4})'
           }
         ]
@@ -140,10 +163,27 @@ angular.module('numerian')
 
         var regex = new RegExp(pattern.match, 'g');
 
-        file.results[pattern.name] = {
-          name: pattern.name,
-          match: file.content.match(regex)
-        };
+        if(pattern.type == 'count') {
+
+          $log.debug('counting...');
+          $log.debug(file.results.count);
+
+          var matches = file.content.match(regex);
+          $log.debug(matches);
+          $log.debug(matches.length);
+          var matchCount = matches.length;
+
+          file.results.count.series.push(pattern.name);
+          file.results.count.labels.push(pattern.name);
+          file.results.count.hits[0].push(matchCount);
+          /*{
+            name: pattern.name,
+            match: file.content.match(regex)
+          };*/
+          $log.debug('Now:');
+          $log.debug(file.results.count);
+
+        }
 
         $log.debug(file);
 
