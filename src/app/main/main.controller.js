@@ -9,14 +9,7 @@ angular.module('numerian')
         content: 'Line 1 Object\n' +
         'Line 2 Object\n' +
         'Line 3\n',
-        definition: 'test1',
-        results: {
-          count: {
-            hits: [[]],
-            series: [],
-            labels: []
-          }
-        }
+        definition: 'test1'
       },
       {
         title: 'Log 2',
@@ -24,14 +17,7 @@ angular.module('numerian')
         'Line 5 \n' +
         'Line 6 Object\n' +
         'Line 7 Object\n',
-        definition: 'test1',
-        results: {
-          count: {
-            hits: [[]],
-            series: [],
-            labels: []
-          }
-        }
+        definition: 'test1'
       },
       {
         title: 'WebStorm GC Log',
@@ -65,14 +51,7 @@ angular.module('numerian')
         '2015-04-25T11:55:48.508+0500: 4.335: [CMS-concurrent-reset: 0.001/0.001 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]' +
         '2015-04-25T11:55:49.204+0500: 5.031: [GC (Allocation Failure) 5.031: [ParNew: 39296K->4352K(39296K), 0.0069660 secs] 51638K->20000K(126720K), 0.0070254 secs] [Times: user=0.02 sys=0.00, real=0.01 secs]' +
         '2015-04-25T11:55:50.005+0500: 5.832: [GC (Allocation Failure) 5.832: [ParNew: 39296K->4352K(39296K), 0.0196901 secs] 54944K->28819K(126720K), 0.0197474 secs] [Times: user=0.06 sys=0.00, real=0.02 secs]',
-        definition: 'Java GC',
-        results: {
-          count: {
-            hits: [[]],
-            series: [],
-            labels: []
-          }
-        }
+        definition: 'Java GC'
       }
     ];
 
@@ -98,29 +77,23 @@ angular.module('numerian')
         ]
     };
 
-    $scope.results = {
-      /*count: {
-        series: [],
-        labels: [],
-        hits: [[]]
-      }
-      */
-    };
+    $scope.results = {};
 
     var buildResultLabels = function(callback) {
 
       $log.debug('Building labels...');
-
+      $log.debug($scope.results);
 
       angular.forEach(Object.keys($scope.definitions), function(definition) {
 
+        $log.debug('Building ' + definition);
         $log.debug(definition);
 
         $scope.results[definition] = {
           count: {
             series: [],
             labels: [],
-            hits: [[]]
+            hits: []
           }
         };
 
@@ -137,6 +110,9 @@ angular.module('numerian')
 
         });
 
+        $log.debug('Now:');
+        $log.debug($scope.results);
+
       });
 
       $log.debug('Results after adding labels:');
@@ -152,9 +128,16 @@ angular.module('numerian')
 
       angular.forEach($scope.files, function (file, fileKey) {
 
-        $scope.results[file.definition].count.series[fileKey] = file.title;
+        $log.debug('Processing file ');
+        $log.debug(file);
 
-        angular.forEach($scope.definitions[file.definition], function (pattern, patternKey) {
+        $scope.results[file.definition].count.series.push(file.title);
+        //$log.debug('FileDef:');
+        //$log.debug($scope.results['Java GC'].count.series);
+
+        //$log.debug($scope.results);
+
+        angular.forEach($scope.definitions[file.definition], function (pattern) {
 
           $log.debug(pattern);
 
@@ -163,26 +146,36 @@ angular.module('numerian')
           if (pattern.type == 'count') {
 
             $log.debug('counting...');
-            $log.debug(file.results.count);
+            //$log.debug(file.results.count);
 
-            var matches = file.content.match(regex);
-            $log.debug(matches);
-            $log.debug(matches.length);
-            var matchCount = matches.length;
+            //var matches = ;
+            //$log.debug(matches);
+            //$log.debug(matches.length);
+            var matchCount = file.content.match(regex).length;
 
             //$scope.results.count.series.push(pattern.name);
             //$scope.results.count.labels.push(pattern.name);
-            if(!$scope.results[file.definition].count.hits[patternKey]) {
-              $scope.results[file.definition].count.hits[patternKey] = [];
-            }
 
-            $scope.results[file.definition].count.hits[patternKey].push(matchCount);
+              var hitKey = fileKey;
+
+              if((hitKey > 0) && (!$scope.results[file.definition].count.hits[0])) {
+                hitKey = 0;
+              }
+
+              if (!$scope.results[file.definition].count.hits[hitKey]) {
+                $scope.results[file.definition].count.hits[hitKey] = [];
+              }
+
+              $scope.results[file.definition].count.hits[hitKey].push(matchCount);
+
+
             /*{
              name: pattern.name,
              match: file.content.match(regex)
              };*/
-            $log.debug('Now:');
-            $log.debug(file.results.count);
+
+            //$log.debug('Now:');
+            //$log.debug(file.results.count);
 
           }
 
