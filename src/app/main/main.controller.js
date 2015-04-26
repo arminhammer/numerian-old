@@ -3,17 +3,31 @@
 angular.module('numerian')
   .controller('MainCtrl', ['$scope', '$log', function ($scope, $log) {
 
-    function TextFile(title, content, definition) {
+    var File = function File(title, content, definition) {
 
       this.title = title;
       this.content = content;
       this.definition = definition;
 
-    }
+    };
+
+    var Pattern = function Pattern(name, type, match) {
+
+      this.name = name;
+      this.type = type;
+      this.match = match;
+
+    };
+
+    var Definition = function Definition() {
+
+      this.patterns = [];
+
+    };
 
     $scope.files = [];
 
-    $scope.files.push(new TextFile(
+    $scope.files.push(new File(
       'Log 1',
       'Line 1 Object\n' +
       'Line 2 Object\n' +
@@ -21,7 +35,7 @@ angular.module('numerian')
       'test1'
     ));
 
-    $scope.files.push(new TextFile(
+    $scope.files.push(new File(
       'Log 1',
       'Line 4 Object\n' +
       'Line 5 \n' +
@@ -29,7 +43,7 @@ angular.module('numerian')
       'Line 7 Object\n',
       'test1'));
 
-    $scope.files.push(new TextFile(
+    $scope.files.push(new File(
       'WebStorm GC Log',
       'Java HotSpot(TM) 64-Bit Server VM (25.45-b02) for bsd-amd64 JRE (1.8.0_45-b14), \n' +
       'built on Apr 10 2015 10:46:38 by "java_re" with gcc 4.2.1 (Based on Apple Inc. build 5658) \n' +
@@ -64,27 +78,15 @@ angular.module('numerian')
       'Java GC'
     ));
 
-    $scope.definitions = {
-      test1: [
-        {
-          name: 'Lines',
-          type: 'count',
-          match: 'Line'
-        },
-        {
-          name: 'Objects',
-          type: 'count',
-          match: 'Object'
-        }
-      ],
-      'Java GC': [
-        {
-          name: 'Java GC',
-          type: 'count',
-          match: '(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4})'
-        }
-      ]
-    };
+    $scope.definitions = {};
+
+    $scope.definitions['test1'] = new Definition();
+
+    $scope.definitions['test1'].patterns.push(new Pattern('Lines', 'count', 'Line'));
+    $scope.definitions['test1'].patterns.push(new Pattern('Objects', 'count', 'Object'));
+
+    $scope.definitions['Java GC'] = new Definition();
+    $scope.definitions['Java GC'].patterns.push(new Pattern('Java GC', 'count', '(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4})'));
 
     $scope.results = {};
 
@@ -106,13 +108,12 @@ angular.module('numerian')
           }
         };
 
-        angular.forEach($scope.definitions[definition], function(pattern) {
+        angular.forEach($scope.definitions[definition].patterns, function(pattern) {
 
           $log.debug('Pattern:');
           $log.debug(pattern);
           if(pattern.type === 'count') {
 
-            //$scope.results[definition].count.series.push(pattern.name);
             $scope.results[definition].count.labels.push(pattern.name);
 
           }
@@ -141,12 +142,8 @@ angular.module('numerian')
         $log.debug(file);
 
         $scope.results[file.definition].count.series.push(file.title);
-        //$log.debug('FileDef:');
-        //$log.debug($scope.results['Java GC'].count.series);
 
-        //$log.debug($scope.results);
-
-        angular.forEach($scope.definitions[file.definition], function (pattern) {
+        angular.forEach($scope.definitions[file.definition].patterns, function (pattern) {
 
           $log.debug(pattern);
 
@@ -155,15 +152,13 @@ angular.module('numerian')
           if (pattern.type == 'count') {
 
             $log.debug('counting...');
-            //$log.debug(file.results.count);
 
-            //var matches = ;
-            //$log.debug(matches);
-            //$log.debug(matches.length);
-            var matchCount = file.content.match(regex).length;
+            var matches = file.content.match(regex);
+            var matchCount = 0;
 
-            //$scope.results.count.series.push(pattern.name);
-            //$scope.results.count.labels.push(pattern.name);
+            if(matches) {
+              matchCount = matches.length;
+            }
 
             var hitKey = fileKey;
 
@@ -176,15 +171,6 @@ angular.module('numerian')
             }
 
             $scope.results[file.definition].count.hits[hitKey].push(matchCount);
-
-
-            /*{
-             name: pattern.name,
-             match: file.content.match(regex)
-             };*/
-
-            //$log.debug('Now:');
-            //$log.debug(file.results.count);
 
           }
 
