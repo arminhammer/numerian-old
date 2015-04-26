@@ -3,57 +3,6 @@
 angular.module('numerian')
   .controller('MainCtrl', ['$scope', '$log', function ($scope, $log) {
 
-    $scope.awesomeThings = [
-      {
-        'title': 'AngularJS',
-        'url': 'https://angularjs.org/',
-        'description': 'HTML enhanced for web apps!',
-        'logo': 'angular.png'
-      },
-      {
-        'title': 'BrowserSync',
-        'url': 'http://browsersync.io/',
-        'description': 'Time-saving synchronised browser testing.',
-        'logo': 'browsersync.png'
-      },
-      {
-        'title': 'GulpJS',
-        'url': 'http://gulpjs.com/',
-        'description': 'The streaming build system.',
-        'logo': 'gulp.png'
-      },
-      {
-        'title': 'Jasmine',
-        'url': 'http://jasmine.github.io/',
-        'description': 'Behavior-Driven JavaScript.',
-        'logo': 'jasmine.png'
-      },
-      {
-        'title': 'Karma',
-        'url': 'http://karma-runner.github.io/',
-        'description': 'Spectacular Test Runner for JavaScript.',
-        'logo': 'karma.png'
-      },
-      {
-        'title': 'Protractor',
-        'url': 'https://github.com/angular/protractor',
-        'description': 'End to end test framework for AngularJS applications built on top of WebDriverJS.',
-        'logo': 'protractor.png'
-      },
-      {
-        'title': 'Bootstrap',
-        'url': 'http://getbootstrap.com/',
-        'description': 'Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile first projects on the web.',
-        'logo': 'bootstrap.png'
-      },
-      {
-        'title': 'Angular UI Bootstrap',
-        'url': 'http://angular-ui.github.io/bootstrap/',
-        'description': 'Bootstrap components written in pure AngularJS by the AngularUI Team.',
-        'logo': 'ui-bootstrap.png'
-      }
-    ];
-
     $scope.files = [
       {
         title: 'Log 1',
@@ -127,9 +76,8 @@ angular.module('numerian')
       }
     ];
 
-    $scope.definition = {
-      test1: {
-        patterns: [
+    $scope.definitions = {
+      test1: [
           {
             name: 'Lines',
             type: 'count',
@@ -140,59 +88,124 @@ angular.module('numerian')
             type: 'count',
             match: 'Object'
           }
-        ]
-      },
-      'Java GC': {
-        patterns: [
+        ],
+      'Java GC': [
           {
             name: 'Java GC',
             type: 'count',
             match: '(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4})'
           }
         ]
-      }
     };
 
-    angular.forEach($scope.files, function(file) {
+    $scope.results = {
+      /*count: {
+        series: [],
+        labels: [],
+        hits: [[]]
+      }
+      */
+    };
 
-      var def = $scope.definition[file.definition];
+    var buildResultLabels = function(callback) {
 
-      angular.forEach(def.patterns, function(pattern) {
+      $log.debug('Building labels...');
 
-        $log.debug(pattern);
 
-        var regex = new RegExp(pattern.match, 'g');
+      angular.forEach(Object.keys($scope.definitions), function(definition) {
 
-        if(pattern.type == 'count') {
+        $log.debug(definition);
 
-          $log.debug('counting...');
-          $log.debug(file.results.count);
+        $scope.results[definition] = {
+          count: {
+            series: [],
+            labels: [],
+            hits: [[]]
+          }
+        };
 
-          var matches = file.content.match(regex);
-          $log.debug(matches);
-          $log.debug(matches.length);
-          var matchCount = matches.length;
+        angular.forEach($scope.definitions[definition], function(pattern) {
 
-          file.results.count.series.push(pattern.name);
-          file.results.count.labels.push(pattern.name);
-          file.results.count.hits[0].push(matchCount);
-          /*{
-            name: pattern.name,
-            match: file.content.match(regex)
-          };*/
-          $log.debug('Now:');
-          $log.debug(file.results.count);
+          $log.debug('Pattern:');
+          $log.debug(pattern);
+          if(pattern.type === 'count') {
 
-        }
+            //$scope.results[definition].count.series.push(pattern.name);
+            $scope.results[definition].count.labels.push(pattern.name);
 
-        $log.debug(file);
+          }
 
-      })
+        });
 
-    });
+      });
 
-    angular.forEach($scope.awesomeThings, function(awesomeThing) {
-      awesomeThing.rank = Math.random();
+      $log.debug('Results after adding labels:');
+      $log.debug($scope.results);
+
+      callback();
+
+    };
+
+    var processFiles = function(callback) {
+
+      $log.debug('Processing files...');
+
+      angular.forEach($scope.files, function (file, fileKey) {
+
+        $scope.results[file.definition].count.series[fileKey] = file.title;
+
+        angular.forEach($scope.definitions[file.definition], function (pattern, patternKey) {
+
+          $log.debug(pattern);
+
+          var regex = new RegExp(pattern.match, 'g');
+
+          if (pattern.type == 'count') {
+
+            $log.debug('counting...');
+            $log.debug(file.results.count);
+
+            var matches = file.content.match(regex);
+            $log.debug(matches);
+            $log.debug(matches.length);
+            var matchCount = matches.length;
+
+            //$scope.results.count.series.push(pattern.name);
+            //$scope.results.count.labels.push(pattern.name);
+            if(!$scope.results[file.definition].count.hits[patternKey]) {
+              $scope.results[file.definition].count.hits[patternKey] = [];
+            }
+
+            $scope.results[file.definition].count.hits[patternKey].push(matchCount);
+            /*{
+             name: pattern.name,
+             match: file.content.match(regex)
+             };*/
+            $log.debug('Now:');
+            $log.debug(file.results.count);
+
+          }
+
+          $log.debug(file);
+
+        })
+
+      });
+
+      callback();
+
+    };
+
+
+    buildResultLabels(function() {
+
+      processFiles(function() {
+
+        $log.debug('Finished processing...');
+        $log.debug($scope.results);
+
+      });
+
     });
 
   }]);
