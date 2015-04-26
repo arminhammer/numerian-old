@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('numerian')
-  .controller('MainCtrl', ['$scope', '$log', function ($scope, $log) {
+  .controller('MainCtrl', ['$scope', '$log', 'Upload', function ($scope, $log, Upload) {
 
     var File = function File(title, content, definition) {
 
@@ -195,5 +195,32 @@ angular.module('numerian')
       });
 
     });
+
+    $scope.uploadFiles = [];
+
+    $scope.$watch('files', function () {
+      $log.debug('Found a file upload!');
+      $scope.upload($scope.uploadFiles);
+    });
+
+    $scope.upload = function (files) {
+      $log.debug('upload function started');
+
+      if (files && files.length) {
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+          Upload.upload({
+            url: '/#/',
+            fields: {'username': $scope.username},
+            file: file
+          }).progress(function (evt) {
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+          }).success(function (data, status, headers, config) {
+            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+          });
+        }
+      }
+    };
 
   }]);
