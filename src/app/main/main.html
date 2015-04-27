@@ -36,6 +36,8 @@
       <div class="thumbnail">
         <div class="caption">
           <h3>Timeseries</h3>
+          <canvas id="line" class="chart chart-line" data="results.timeseries.data" labels="results.timeseries.labels" legend="true" series="results.timeseries.series" click="onClick">
+          </canvas>
           <!--
           <div ng-repeat="result in results">
             <p>{{result.name}}</p>

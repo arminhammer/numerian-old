@@ -88,7 +88,16 @@ angular.module('numerian')
     $scope.definitions['Java GC'] = new Definition();
     $scope.definitions['Java GC'].patterns.push(new Pattern('Java GC', 'count', '(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4})'));
 
-    $scope.results = {};
+    $scope.results = {
+      timeseries: {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        series: ['Series A', 'Series B'],
+        data: [
+          [65, 59, 80, 81, 56, 55, 40],
+          [28, 48, 40, 19, 86, 27, 90]
+        ]
+      }
+    }
 
     var buildResultLabels = function(callback) {
 
