@@ -234,7 +234,15 @@ angular.module('numerianApp')
     };
     */
 
-    $scope.uploader = new FileUploader();
+    $scope.uploader = new FileUploader({
+      url: '/api/files/upload'
+    });
+
+    $http.get('/api/files').success(function(awesomeThings) {
+      //$scope.awesomeThings = awesomeThings;
+      //socket.syncUpdates('thing', $scope.awesomeThings);
+      console.log('Got files...');
+    });
 
     $scope.awesomeThings = [];
 
