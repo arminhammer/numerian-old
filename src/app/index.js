@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('numerian', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router', 'ui.bootstrap', 'chart.js', 'ngFileUpload'])
+angular.module('numerian', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router', 'ui.bootstrap', 'chart.js', 'ngFileUpload', 'angularFileUpload'])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('home', {

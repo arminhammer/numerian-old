@@ -35,6 +35,17 @@
       </div>
 
       <div class="row">
+        <p>Ang File Upload</p>
+        <input type="file" nv-file-select uploader="uploader"/><br/>
+          <ul>
+            <li ng-repeat="item in uploader.queue">
+              Name: <span ng-bind="item.file.name"></span><br/>
+              <button ng-click="item.upload()">upload</button>
+            </li>
+          </ul>
+      </div>
+
+      <div class="row">
         <div ng-repeat="file in files">
           <a href="/file/{{ file.title }}">{{ file.title }}</a>
         </div>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('numerian')
-  .controller('MainCtrl', ['$scope', '$log', 'Upload', function ($scope, $log, Upload) {
+  .controller('MainCtrl', ['$scope', '$log', 'Upload', 'FileUploader', function ($scope, $log, Upload, FileUploader) {
 
     var File = function File(title, content, definition) {
 
@@ -205,9 +205,9 @@ angular.module('numerian')
 
     });
 
-    $scope.uploadFiles = [];
+    //$scope.uploadFiles = [];
 
-    $scope.$watch('files', function () {
+    $scope.$watch('uploadFiles', function () {
       $log.debug('Found a file upload!');
       $scope.upload($scope.uploadFiles);
     });
@@ -231,5 +231,7 @@ angular.module('numerian')
         }
       }
     };
+
+    $scope.uploader = new FileUploader();
 
   }]);
