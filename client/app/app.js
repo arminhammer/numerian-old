@@ -8,6 +8,7 @@ angular.module('numerianApp', [
   'ui.router',
   'ui.bootstrap',
   'angularFileUpload',
+  'ngFileUpload',
   'chart.js'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {

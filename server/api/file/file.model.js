@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 
 var FileSchema = new Schema({
   name: String,
-  info: String,
+  //info: String,
   active: Boolean
 });
 

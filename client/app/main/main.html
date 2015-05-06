@@ -8,6 +8,7 @@
     </div>
     <div class="row">
 
+      <!--
       <div>
         watching model:
         <div class="button" ngf-select ng-model="uploadFiles">Upload using model $watch</div>
@@ -30,6 +31,35 @@
           <button ng-click="item.upload()">upload</button>
         </li>
       </ul>
+
+  -->
+    </div>
+    <div class="row">
+      <div>
+        watching model:
+        <div class="button" ngf-select ng-model="uploads">Upload using model $watch</div>
+        <div class="button" ngf-select ngf-change="upload($uploads)">Upload on file change</div>
+        <button ngf-select="" ng-model="uploads" ngf-multiple="true">Attach Any File</button><br>
+
+        Drop File:
+        <div ngf-drop ng-model="uploads" class="drop-box"
+             ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+             ngf-accept="'.jpg,.png,.pdf'">Drop Images or PDFs uploads here</div>
+        <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+
+      </div>
+
+      <!--
+      <div class="up-buttons">
+        <div ngf-select="" ng-model="files" class="upload-button" ngf-multiple="false" ngf-accept="'*.pdf,*.jpg,*.png'" ng-model-rejected="rejFiles" tabindex="0">Attach an Image or PDF</div><br>
+
+      </div>
+      <div ngf-drop="" ngf-select="" ng-model="files" ng-model-rejected="rejFiles" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box" ngf-multiple="true" ngf-allow-dir="true" ngf-accept="'image/*,application/pdf'" ngf-drop-available="dropAvailable">
+        <div ng-hide="dropAvailable">File Drop not available</div>
+        <div ng-show="dropAvailable">Drop Images or PDFs</div>
+        <div>click to select</div>
+      </div>
+      -->
     </div>
 
     <div class="row">

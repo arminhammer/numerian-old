@@ -57,12 +57,31 @@ exports.destroy = function(req, res) {
 // Creates a new file in the DB.
 exports.upload = function(req, res) {
   console.log('Upload file...');
+
   console.log(req.body);
-  /*  File.create(req.body, function(err, file) {
+  console.log(req.params);
+  console.log(req.data);
+  console.log(req.files.file);
+
+  /*
+
+  console.log('File:');
+  console.log(req.files.file);
+  //console.log(req.body);
+  //console.log(req.data);
+  console.log('Name:');
+  console.log(req.files.file.name);
+  //console.log(res);
+  res.json(201, req.files.file.size);
+  */
+  File.create({
+    name: req.files.file.name,
+    active: true
+  }, function(err, file) {
     if(err) { return handleError(res, err); }
     return res.json(201, file);
   });
-  */
+
 };
 
 function handleError(res, err) {

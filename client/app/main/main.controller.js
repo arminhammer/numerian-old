@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('numerianApp')
-  .controller('MainCtrl', ['$scope', '$http', 'socket', '$log', 'FileUploader', 'FileService', function ($scope, $http, socket, $log, FileUploader, FileService) {
+  .controller('MainCtrl', ['$scope', '$http', 'socket', '$log', 'FileUploader', 'FileService', 'Upload', function ($scope, $http, socket, $log, FileUploader, FileService, Upload) {
 
     var Pattern = function Pattern(name, type, match) {
 
@@ -201,5 +201,38 @@ angular.module('numerianApp')
     $scope.$on('$destroy', function () {
       socket.unsyncUpdates('thing');
     });
+
+    //$scope.uploads = [];
+
+    $scope.$watch('uploads', function () {
+      $log.debug('Uploading new file!');
+      $log.debug($scope.uploads);
+      $scope.upload($scope.uploads);
+    });
+
+    $scope.upload = function (files) {
+      if (files && files.length) {
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+
+          Upload.upload({
+            url: '/api/files/upload',
+            //fields: {'username': $scope.username},
+            file: file
+          }).progress(function (evt) {
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+          }).success(function (data, status, headers, config) {
+            console.log('file ' + config.file.name + ' uploaded. Response: ' + data);
+            console.log(config.file);
+
+            $log.debug('Files now:');
+            $log.debug(FileService.files());
+
+          });
+
+        }
+      }
+    };
 
   }]);

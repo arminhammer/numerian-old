@@ -8,5 +8,7 @@ module.exports = {
     uri: 'mongodb://localhost/numerian-dev'
   },
 
-  seedDB: true
+  seedDB: true,
+
+  tmp: 'C:/tmp/uploads'
 };

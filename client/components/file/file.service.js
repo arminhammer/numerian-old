@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('numerianApp')
-  .factory('FileService', ['$http', function($http) {
+  .factory('FileService', ['$http', 'socket', function($http, socket) {
 
     var File = function File(title, content, definition) {
 
@@ -71,7 +71,7 @@ angular.module('numerianApp')
 
     $http.get('/api/files').success(function(awesomeThings) {
       //$scope.awesomeThings = awesomeThings;
-      //socket.syncUpdates('thing', $scope.awesomeThings);
+      socket.syncUpdates('file', files);
       console.log('Got files...');
     });
 
