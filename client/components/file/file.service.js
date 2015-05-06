@@ -4,6 +4,7 @@
 angular.module('numerianApp')
   .factory('FileService', ['$http', 'socket', function($http, socket) {
 
+    /*
     var File = function File(title, content, definition) {
 
       this.title = title;
@@ -11,9 +12,11 @@ angular.module('numerianApp')
       this.definition = definition;
 
     };
+    */
 
     var files = [];
 
+    /*
     // Build test data
     (function() {
       files.push(new File(
@@ -68,17 +71,21 @@ angular.module('numerianApp')
       ));
 
     })();
-
-    $http.get('/api/files').success(function(awesomeThings) {
-      //$scope.awesomeThings = awesomeThings;
-      socket.syncUpdates('file', files);
-      console.log('Got files...');
-    });
+    */
 
     return {
 
-      files: function() {
-        return files;
+      getFiles: function() {
+
+        var promise = $http.get('/api/files').success(function(getFiles) {
+          files = getFiles;
+          socket.syncUpdates('file', files);
+          console.log('Got files...');
+          console.log(getFiles);
+        });
+
+        return promise;
+
       }
 
     };

@@ -17,7 +17,27 @@ angular.module('numerianApp')
 
     };
 
-    $scope.files = FileService.files();
+    FileService.getFiles().then(function(files) {
+
+      $log.debug('Raw files:');
+      $log.debug(files);
+      $scope.files = files.data;
+
+      $log.debug('Initial files:');
+      $log.debug($scope.files);
+
+      buildResultLabels(function() {
+
+        processFiles(function() {
+
+          $log.debug('Finished processing...');
+          $log.debug($scope.results);
+
+        });
+
+      });
+
+    });
 
     $scope.definitions = {};
 
@@ -86,6 +106,8 @@ angular.module('numerianApp')
 
       $log.debug('Processing files...');
 
+      $log.debug($scope.files);
+
       angular.forEach($scope.files, function (file, fileKey) {
 
         $log.debug('Processing file ');
@@ -135,6 +157,7 @@ angular.module('numerianApp')
     };
 
 
+    /*
     buildResultLabels(function() {
 
       processFiles(function() {
@@ -145,6 +168,8 @@ angular.module('numerianApp')
       });
 
     });
+  */
+
 
     //$scope.uploadFiles = [];
 
@@ -208,6 +233,22 @@ angular.module('numerianApp')
       $log.debug('Uploading new file!');
       $log.debug($scope.uploads);
       $scope.upload($scope.uploads);
+
+      buildResultLabels(function() {
+
+        processFiles(function() {
+
+          $log.debug('Finished processing...');
+          $log.debug($scope.results);
+
+        });
+
+      });
+
+    });
+
+    $scope.$watch('results', function() {
+      $log.debug('Results have changed!');
     });
 
     $scope.upload = function (files) {
@@ -226,8 +267,8 @@ angular.module('numerianApp')
             console.log('file ' + config.file.name + ' uploaded. Response: ' + data);
             console.log(config.file);
 
-            $log.debug('Files now:');
-            $log.debug(FileService.files());
+            //$log.debug('Files now:');
+            //$log.debug(FileService.getFiles());
 
           });
 

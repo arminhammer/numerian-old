@@ -75,8 +75,9 @@ exports.upload = function(req, res) {
   res.json(201, req.files.file.size);
   */
   File.create({
-    name: req.files.file.name,
-    active: true
+    title: req.files.file.name,
+    content: 'Sample Text',
+    definition: 'test1'
   }, function(err, file) {
     if(err) { return handleError(res, err); }
     return res.json(201, file);
