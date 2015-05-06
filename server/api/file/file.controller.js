@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var File = require('./file.model');
+var fs = require('fs');
 
 // Get list of files
 exports.index = function(req, res) {
@@ -74,14 +75,21 @@ exports.upload = function(req, res) {
   //console.log(res);
   res.json(201, req.files.file.size);
   */
-  File.create({
-    title: req.files.file.name,
-    content: 'Sample Text',
-    definition: 'test1'
-  }, function(err, file) {
-    if(err) { return handleError(res, err); }
-    return res.json(201, file);
+  fs.readFile(req.files.file.path, function(err, fileData) {
+
+    if(err) throw err;
+
+    File.create({
+      title: req.files.file.name,
+      content: fileData,
+      definition: 'test1'
+    }, function(err, file) {
+      if(err) { return handleError(res, err); }
+      return res.json(201, file);
+    });
+
   });
+
 
 };
 
