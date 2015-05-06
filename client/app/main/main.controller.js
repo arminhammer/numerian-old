@@ -1,21 +1,7 @@
 'use strict';
 
 angular.module('numerianApp')
-  .controller('MainCtrl', ['$scope', '$http', 'socket', '$log', 'FileUploader', 'FileService', 'Upload', function ($scope, $http, socket, $log, FileUploader, FileService, Upload) {
-
-    var Pattern = function Pattern(name, type, match) {
-
-      this.name = name;
-      this.type = type;
-      this.match = match;
-
-    };
-
-    var Definition = function Definition() {
-
-      this.patterns = [];
-
-    };
+  .controller('MainCtrl', ['$scope', '$http', 'socket', '$log', 'FileUploader', 'FileService', 'Upload', 'DefinitionService', function ($scope, $http, socket, $log, FileUploader, FileService, Upload, DefinitionService) {
 
     FileService.getFiles().then(function(files) {
 
@@ -39,15 +25,7 @@ angular.module('numerianApp')
 
     });
 
-    $scope.definitions = {};
-
-    $scope.definitions['test1'] = new Definition();
-
-    $scope.definitions['test1'].patterns.push(new Pattern('Lines', 'count', 'Line'));
-    $scope.definitions['test1'].patterns.push(new Pattern('Objects', 'count', 'Object'));
-
-    $scope.definitions['Java GC'] = new Definition();
-    $scope.definitions['Java GC'].patterns.push(new Pattern('Java GC', 'count', '(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4})'));
+    $scope.definitions = DefinitionService.getDefinitions();
 
     $scope.results = {
       timeseries: {
