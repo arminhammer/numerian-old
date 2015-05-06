@@ -79,7 +79,6 @@ angular.module('numerianApp')
 
         var promise = $http.get('/api/files').success(function(getFiles) {
           files = getFiles;
-          socket.syncUpdates('file', files);
           console.log('Got files...');
           console.log(getFiles);
         });

@@ -12,6 +12,8 @@ angular.module('numerianApp')
       $log.debug('Initial files:');
       $log.debug($scope.files);
 
+      socket.syncUpdates('file', files);
+
       buildResultLabels(function() {
 
         processFiles(function() {
