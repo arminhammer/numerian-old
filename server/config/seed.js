@@ -36,12 +36,12 @@ Definition.find({}).remove(function() {
         {
           name: 'Lines',
           defType: 'count',
-          match: 'Line'
+          pattern: 'Line'
         },
         {
           name: 'Object',
           defType: 'count',
-          match: 'Object'
+          pattern: 'Object'
         }
       ]
     },
@@ -51,7 +51,7 @@ Definition.find({}).remove(function() {
         {
           name: 'Java GC',
           defType: 'count',
-          match: '(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4})'
+          pattern: '(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4})'
         }
       ]
     })

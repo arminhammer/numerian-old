@@ -2,9 +2,10 @@
 'use strict';
 
 angular.module('numerianApp')
-  .factory('DefinitionService', ['$http', 'socket', function($http, socket) {
+  .factory('DefinitionService', ['$http', 'socket', function($http) {
 
 
+    /*
     var Pattern = function Pattern(name, type, match) {
 
       this.name = name;
@@ -18,6 +19,7 @@ angular.module('numerianApp')
       this.patterns = [];
 
     };
+    */
 
     var definitions = [];
 

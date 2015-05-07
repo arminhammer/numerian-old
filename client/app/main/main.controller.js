@@ -12,11 +12,13 @@ angular.module('numerianApp')
       $log.debug('Initial files:');
       $log.debug($scope.files);
 
-      socket.syncUpdates('file', files);
+      socket.syncUpdates('file', $scope.files);
 
       DefinitionService.getDefinitions().then(function(defs) {
 
         $scope.definitions = defs.data;
+
+        socket.syncUpdates('definitions', $scope.definitions);
 
         buildResultLabels(function() {
 
@@ -103,7 +105,7 @@ angular.module('numerianApp')
 
           $log.debug(pattern);
 
-          var regex = new RegExp(pattern.match, 'g');
+          var regex = new RegExp(pattern.pattern, 'g');
 
           if (pattern.defType == 'count') {
 
