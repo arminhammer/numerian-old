@@ -21,6 +21,7 @@ angular.module('numerianApp')
 
     var definitions = [];
 
+    /*
     definitions['test1'] = new Definition();
 
     definitions['test1'].patterns.push(new Pattern('Lines', 'count', 'Line'));
@@ -28,7 +29,7 @@ angular.module('numerianApp')
 
     definitions['Java GC'] = new Definition();
     definitions['Java GC'].patterns.push(new Pattern('Java GC', 'count', '(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4})'));
-
+    */
 
     /*
     var File = function File(title, content, definition) {
@@ -57,7 +58,18 @@ angular.module('numerianApp')
       }
       */
       getDefinitions: function() {
-        return definitions;
+
+        var promise = $http.get('/api/definitions').success(function(getDefs) {
+
+          definitions = getDefs;
+
+          console.log('Got files...');
+          console.log(getDefs);
+
+        });
+
+        return promise;
+
       }
 
     };

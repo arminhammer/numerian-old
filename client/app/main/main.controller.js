@@ -14,20 +14,24 @@ angular.module('numerianApp')
 
       socket.syncUpdates('file', files);
 
-      buildResultLabels(function() {
+      DefinitionService.getDefinitions().then(function(defs) {
 
-        processFiles(function() {
+        $scope.definitions = defs.data;
 
-          $log.debug('Finished processing...');
-          $log.debug($scope.results);
+        buildResultLabels(function() {
+
+          processFiles(function() {
+
+            $log.debug('Finished processing...');
+            $log.debug($scope.results);
+
+          });
 
         });
 
       });
 
     });
-
-    $scope.definitions = DefinitionService.getDefinitions();
 
     $scope.results = {
       timeseries: {
@@ -45,12 +49,12 @@ angular.module('numerianApp')
       $log.debug('Building labels...');
       $log.debug($scope.results);
 
-      angular.forEach(Object.keys($scope.definitions), function(definition) {
+      angular.forEach($scope.definitions, function(definition) {
 
-        $log.debug('Building ' + definition);
+        $log.debug('Building ' + definition.name);
         $log.debug(definition);
 
-        $scope.results[definition] = {
+        $scope.results[definition.name] = {
           count: {
             series: [],
             labels: [],
@@ -58,13 +62,13 @@ angular.module('numerianApp')
           }
         };
 
-        angular.forEach($scope.definitions[definition].patterns, function(pattern) {
+        angular.forEach(definition.patterns, function(pattern) {
 
           $log.debug('Pattern:');
           $log.debug(pattern);
-          if(pattern.type === 'count') {
+          if(pattern.defType === 'count') {
 
-            $scope.results[definition].count.labels.push(pattern.name);
+            $scope.results[definition.name].count.labels.push(pattern.name);
 
           }
 
@@ -101,7 +105,7 @@ angular.module('numerianApp')
 
           var regex = new RegExp(pattern.match, 'g');
 
-          if (pattern.type == 'count') {
+          if (pattern.defType == 'count') {
 
             $log.debug('counting...');
 

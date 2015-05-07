@@ -8,6 +8,7 @@
 var Thing = require('../api/thing/thing.model');
 var File = require('../api/file/file.model');
 var User = require('../api/user/user.model');
+var Definition = require('../api/definition/definition.model');
 
 Thing.find({}).remove(function() {
   Thing.create({
@@ -48,6 +49,35 @@ File.find({}).remove(function() {
       'Line 7 Object\n',
       definition: 'test1'
     });
+});
+
+Definition.find({}).remove(function() {
+  Definition.create(
+    {
+      name: 'test1',
+      patterns: [
+        {
+          name: 'Lines',
+          defType: 'count',
+          match: 'Line'
+        },
+        {
+          name: 'Object',
+          defType: 'count',
+          match: 'Object'
+        }
+      ]
+    },
+    {
+      name: 'Java GC',
+      patterns: [
+        {
+          name: 'Java GC',
+          defType: 'count',
+          match: '(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4})'
+        }
+      ]
+    })
 });
 
 User.find({}).remove(function() {

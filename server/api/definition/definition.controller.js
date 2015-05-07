@@ -5,8 +5,13 @@ var Definition = require('./definition.model');
 
 // Get list of definitions
 exports.index = function(req, res) {
-  Definition.find(function (err, definitions) {
+  Definition.find(function (err, definitionsArray) {
     if(err) { return handleError(res, err); }
+    var definitions = {};
+    definitionsArray.forEach(function(definition) {
+      definitions[definition.name] = definition;
+    });
+
     return res.json(200, definitions);
   });
 };
