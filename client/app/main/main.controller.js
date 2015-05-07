@@ -142,78 +142,9 @@ angular.module('numerianApp')
 
     };
 
-
-    /*
-    buildResultLabels(function() {
-
-      processFiles(function() {
-
-        $log.debug('Finished processing...');
-        $log.debug($scope.results);
-
-      });
-
-    });
-  */
-
-
-    //$scope.uploadFiles = [];
-
-    /*
-    $scope.$watch('uploadFiles', function () {
-      $log.debug('Found a file upload!');
-      $scope.upload($scope.uploadFiles);
-    });
-
-    $scope.upload = function (files) {
-      $log.debug('upload function started');
-
-      if (files && files.length) {
-        for (var i = 0; i < files.length; i++) {
-          var file = files[i];
-          Upload.upload({
-            url: '/#/',
-            fields: {'username': $scope.username},
-            file: file
-          }).progress(function (evt) {
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-          }).success(function (data, status, headers, config) {
-            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-          });
-        }
-      }
-    };
-    */
-
     $scope.uploader = new FileUploader({
       url: '/api/files/upload'
     });
-
-    /*
-    $scope.awesomeThings = [];
-
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
-      socket.syncUpdates('thing', $scope.awesomeThings);
-    });
-
-    $scope.addThing = function() {
-      if($scope.newThing === '') {
-        return;
-      }
-      $http.post('/api/things', { name: $scope.newThing });
-      $scope.newThing = '';
-    };
-
-    $scope.deleteThing = function(thing) {
-      $http.delete('/api/things/' + thing._id);
-    };
-
-    $scope.$on('$destroy', function () {
-      socket.unsyncUpdates('thing');
-    });
-    */
 
     $scope.$watch('uploads', function () {
       $log.debug('Uploading new file!');
@@ -253,13 +184,11 @@ angular.module('numerianApp')
             console.log('file ' + config.file.name + ' uploaded. Response: ' + data);
             console.log(config.file);
 
-            //$log.debug('Files now:');
-            //$log.debug(FileService.getFiles());
-
           });
 
         }
       }
     };
+
 
   }]);
