@@ -188,6 +188,7 @@ angular.module('numerianApp')
       url: '/api/files/upload'
     });
 
+    /*
     $scope.awesomeThings = [];
 
     $http.get('/api/things').success(function(awesomeThings) {
@@ -210,8 +211,7 @@ angular.module('numerianApp')
     $scope.$on('$destroy', function () {
       socket.unsyncUpdates('thing');
     });
-
-    //$scope.uploads = [];
+    */
 
     $scope.$watch('uploads', function () {
       $log.debug('Uploading new file!');

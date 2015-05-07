@@ -64,17 +64,6 @@ exports.upload = function(req, res) {
   console.log(req.data);
   console.log(req.files.file);
 
-  /*
-
-  console.log('File:');
-  console.log(req.files.file);
-  //console.log(req.body);
-  //console.log(req.data);
-  console.log('Name:');
-  console.log(req.files.file.name);
-  //console.log(res);
-  res.json(201, req.files.file.size);
-  */
   fs.readFile(req.files.file.path, function(err, fileData) {
 
     if(err) throw err;
