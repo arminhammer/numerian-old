@@ -85,6 +85,20 @@ angular.module('numerianApp')
 
         return promise;
 
+      },
+
+      getFile: function(fileId) {
+
+        var promise = $http.get('/api/files/' + fileId).success(function(getFile) {
+
+          //file = getFile;
+          console.log('Got file...');
+          console.log(getFile);
+
+        });
+
+        return promise;
+
       }
 
     };
