@@ -21,6 +21,12 @@ angular.module('numerianApp')
 
         return promise;
 
+      },
+
+      buildResultForFile: function(file) {
+
+
+
       }
 
     };
