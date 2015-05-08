@@ -1,4 +1,82 @@
-<div class="col-md-12">
-This is the file view.
+<div class="container">
+
+  <div class="col-sm-4 col-md-4">
+    <div class="row">
+      <p>This is where the sidebar goes.</p>
+    </div>
+    <div class="row">
+
+    </div>
+
+    <div class="row">
+      This is the file view.
+    </div>
+    <div>The file id is {{ fileId }}</div>
+
+    <div class="row">
+      <div>
+        watching model:
+        <div class="button" ngf-select ng-model="uploads">Upload using model $watch</div>
+        <div class="button" ngf-select ngf-change="upload($uploads)">Upload on file change</div>
+        <button ngf-select="" ng-model="uploads" ngf-multiple="true">Attach Any File</button><br>
+
+        Drop File:
+        <div ngf-drop ng-model="uploads" class="drop-box"
+             ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+             ngf-accept="'.jpg,.png,.pdf'">Drop Images or PDFs uploads here</div>
+        <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div ng-repeat="file in files">
+        <a ng-href="/file/{{ file._id }}">{{ file.title }}</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-sm-8 col-md-8">
+
+    <div class="row">
+      <div class="thumbnail">
+        <div class="caption">
+          <h3>Counts</h3>
+          <div ng-repeat="result in results">
+            <!--<p>{{result}}</p>
+            <p>{{result.match.length}}</p>
+            -->
+            <canvas id="bar" class="chart chart-bar" data="result.count.hits" series="result.count.series"
+                    labels="result.count.labels"></canvas>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="thumbnail">
+        <div class="caption">
+          <h3>Timeseries</h3>
+          <canvas id="line" class="chart chart-line" data="results.timeseries.data" labels="results.timeseries.labels" legend="true" series="results.timeseries.series" click="onClick">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="thumbnail" ng-repeat="file in files">
+        <div class="caption">
+          <h3>{{file.title}}</h3>
+          <p>{{file.content}}</p>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
 </div>
-<div>The file id is {{ fileId }}</div>
+
