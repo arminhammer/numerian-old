@@ -9,11 +9,6 @@
     </div>
 
     <div class="row">
-      This is the file view.
-    </div>
-    <div>The file id is {{ fileId }}</div>
-
-    <div class="row">
       <div>
         watching model:
         <div class="button" ngf-select ng-model="uploads">Upload using model $watch</div>
@@ -30,15 +25,15 @@
 
     </div>
 
-    <div class="row">
-      <div ng-repeat="file in files">
-        <a ng-href="/file/{{ file._id }}">{{ file.title }}</a>
-      </div>
-    </div>
-
   </div>
 
   <div class="col-sm-8 col-md-8">
+
+    <div class="row">
+      This is the file view.
+    </div>
+    <div>The file id is {{ file._id }}</div>
+    <div>The file title is {{ file.title }}</div>
 
     <div class="row">
       <div class="thumbnail">
@@ -67,12 +62,10 @@
     </div>
 
     <div class="row">
-      <div class="thumbnail" ng-repeat="file in files">
         <div class="caption">
           <h3>{{file.title}}</h3>
           <p>{{file.content}}</p>
         </div>
-      </div>
     </div>
 
 
