@@ -2,9 +2,13 @@
 'use strict';
 
 angular.module('numerianApp')
-  .factory('DefinitionService', ['$http', 'socket', function($http) {
+  .factory('DefinitionService', [
+    '$http',
+    '$q',
+    'socket',
+    function($http, $q, socket) {
 
-    var definitions = [];
+    var definitions = {};
 
     return {
 
@@ -23,9 +27,21 @@ angular.module('numerianApp')
 
       },
 
-      buildResultForFile: function(file) {
+      /**
+       * Returns a single file as a promise
+       * @param fileId
+       * @returns {*}
+       */
+      getDefinition: function(definitionId) {
 
+        var promise = $http.get('/api/definitions/' + definitionId).success(function(getDefinition) {
 
+          console.log('Got definition...');
+          console.log(getDefinition);
+
+        });
+
+        return promise;
 
       }
 

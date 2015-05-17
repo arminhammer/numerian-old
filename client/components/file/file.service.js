@@ -6,8 +6,44 @@ angular.module('numerianApp')
 
     var files = [];
 
+    var testCount = 0;
+
+    function buildResults(file) {
+
+      var defer = $q.defer();
+
+      var result = {};
+
+      result.count = {
+        series: [],
+        labels: [],
+        hits: []
+      };
+
+      angular.forEach(definition.patterns, function(pattern) {
+
+        $log.debug('Pattern:');
+        $log.debug(pattern);
+        if(pattern.defType === 'count') {
+
+          $scope.results[definition.name].count.labels.push(pattern.name);
+
+        }
+
+      });
+
+      defer.resolve(result);
+
+      return defer.promise;
+
+    }
+
     return {
 
+      /**
+       * Return all of the files as a promise
+       * @returns {*}
+       */
       getFiles: function() {
 
         var promise = $http.get('/api/files').success(function(getFiles) {
@@ -20,6 +56,11 @@ angular.module('numerianApp')
 
       },
 
+      /**
+       * Returns a single file as a promise
+       * @param fileId
+       * @returns {*}
+       */
       getFile: function(fileId) {
 
         var promise = $http.get('/api/files/' + fileId).success(function(getFile) {
@@ -30,6 +71,18 @@ angular.module('numerianApp')
         });
 
         return promise;
+
+      },
+
+      getTestCount: function() {
+
+        return testCount;
+
+      },
+
+      setTestCount: function(newValue) {
+
+        testCount = newValue;
 
       }
 

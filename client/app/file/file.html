@@ -30,6 +30,18 @@
   <div class="col-sm-8 col-md-8">
 
     <div class="row">
+      <div class="caption" style="white-space: pre-line;">
+        <h3>Array Filter Test</h3>
+        <div ng-repeat="filez in files | fileFilter:currentFilter">
+          <h3>Title: {{ filez.title }}</h3>
+          <p>Content: {{ filez.content }}</p>
+          <p>Test Val: {{ filez.testVal }}</p>
+          <p>Current Filter: {{ currentFilter }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
       This is the file view.
     </div>
     <div>The file id is {{ file._id }}</div>
@@ -39,14 +51,11 @@
       <div class="thumbnail">
         <div class="caption">
           <h3>Counts</h3>
-          <div ng-repeat="result in results">
-            <!--<p>{{result}}</p>
-            <p>{{result.match.length}}</p>
-            -->
-            <canvas id="bar" class="chart chart-bar" data="result.count.hits" series="result.count.series"
-                    labels="result.count.labels"></canvas>
-
-          </div>
+          <!--<p>{{result}}</p>
+          <p>{{result.match.length}}</p>
+          -->
+          <canvas id="bar" class="chart chart-bar" data="file.result.count.hits" series="file.result.count.series"
+                  labels="file.result.count.labels"></canvas>
         </div>
       </div>
     </div>
@@ -55,19 +64,21 @@
       <div class="thumbnail">
         <div class="caption">
           <h3>Timeseries</h3>
-          <canvas id="line" class="chart chart-line" data="results.timeseries.data" labels="results.timeseries.labels" legend="true" series="results.timeseries.series" click="onClick">
+          <canvas id="line" class="chart chart-line" data="file.result.timeseries.data" labels="file.result.timeseries.labels" legend="true" series="file.result.timeseries.series" click="onClick">
           </canvas>
         </div>
       </div>
     </div>
 
+    <!--
     <div class="row">
-        <div class="caption" style="white-space: pre-line;">
-          <h3>{{file.title}}</h3>
-          <p>{{file.content}}</p>
-        </div>
+      <div class="caption" style="white-space: pre-line;">
+        <h3>{{file.title}}</h3>
+        <p>Test Count: {{ testCount }}</p>
+        <p>{{file.content | testFilter:currentFilter }}</p>
+      </div>
     </div>
-
+  -->
 
   </div>
 

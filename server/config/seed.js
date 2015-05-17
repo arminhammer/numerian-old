@@ -9,6 +9,35 @@ var File = require('../api/file/file.model');
 var User = require('../api/user/user.model');
 var Definition = require('../api/definition/definition.model');
 
+Definition.find({}).remove(function() {
+  Definition.create(
+    {
+      name: 'test1',
+      patterns: [
+        {
+          name: 'Lines',
+          defType: 'count',
+          pattern: 'Line'
+        },
+        {
+          name: 'Object',
+          defType: 'count',
+          pattern: 'Object'
+        }
+      ]
+    },
+    {
+      name: 'Java GC',
+      patterns: [
+        {
+          name: 'Java GC',
+          defType: 'count',
+          pattern: '(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4})'
+        }
+      ]
+    })
+});
+
 File.find({}).remove(function() {
   File.create(
     {
@@ -54,35 +83,6 @@ File.find({}).remove(function() {
       definition: 'Java GC'
     }
   );
-});
-
-Definition.find({}).remove(function() {
-  Definition.create(
-    {
-      name: 'test1',
-      patterns: [
-        {
-          name: 'Lines',
-          defType: 'count',
-          pattern: 'Line'
-        },
-        {
-          name: 'Object',
-          defType: 'count',
-          pattern: 'Object'
-        }
-      ]
-    },
-    {
-      name: 'Java GC',
-      patterns: [
-        {
-          name: 'Java GC',
-          defType: 'count',
-          pattern: '(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4})'
-        }
-      ]
-    })
 });
 
 User.find({}).remove(function() {
