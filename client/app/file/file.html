@@ -31,12 +31,44 @@
 
     <div class="row">
       <div class="caption" style="white-space: pre-line;">
-        <h3>Array Filter Test</h3>
-        <div ng-repeat="filez in files | fileFilter:currentFilter">
-          <h3>Title: {{ filez.title }}</h3>
-          <p>Content: {{ filez.content }}</p>
-          <p>Test Val: {{ filez.testVal }}</p>
+        <h3>Normal Test</h3>
+          <h3>Title: {{ file.title }}</h3>
+          <p>Content: {{ file.content }}</p>
+          <p>Series: {{ file.content }}</p>
           <p>Current Filter: {{ currentFilter }}</p>
+        </div>
+      </div>
+
+    <div class="row">
+      <div class="caption" style="white-space: pre-line;">
+        <h3>Filter Test</h3>
+        <h3>Title: {{ filteredFile.title }}</h3>
+        <p>Content: {{ filteredFile.content }}</p>
+        <p>TestVal: {{ filteredFile.testVal }}</p>
+        <p>Current Filter: {{ filteredFile.currentFilter }}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="thumbnail">
+        <div class="caption">
+          <h3>Counts</h3>
+          <!--<p>{{result}}</p>
+          <p>{{result.match.length}}</p>
+          -->
+          <canvas id="bar" class="chart chart-bar" data="filteredFile.result.count.data" series="filteredFile.result.count.series"
+                  labels="filteredFile.result.count.labels"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="thumbnail">
+        <div class="caption">
+          <h3>Timeseries</h3>
+          <canvas id="line" class="chart chart-line" data="filteredFile.result.timeseries.data" labels="filteredFile.result.timeseries.labels"
+                  legend="true" series="filteredFile.result.timeseries.series" click="onClick">
+          </canvas>
         </div>
       </div>
     </div>
