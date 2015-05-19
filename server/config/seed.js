@@ -40,7 +40,34 @@ Definition.find({}).remove(function() {
       name: 'Java GC',
       patterns: [
         {
-          name: 'Java GC',
+          name: 'CMS',
+          defType: 'count',
+          pattern: 'CMS'
+        },
+        {
+          name: 'ParNew',
+          defType: 'count',
+          //pattern: 'ParNew: (\d+)K->(\d+)K\((\d+)K\), (\d+\.?\d+) secs] (\d+)K->(\d+)K\((\d+)K\), (\d+\.?\d+) secs'
+          pattern: 'ParNew: (\\d+)K->(\\d+)K\\((\\d+)K\\), (\\d+\\.?\\d+)',
+          subPatterns: [
+            {
+              position: 0,
+              name: 'Starting memory'
+            },
+            {
+              position: 1,
+              name: 'End memory'
+            }
+          ]
+        }
+
+      ]
+    },
+    {
+      name: 'Timeseries',
+      patterns: [
+        {
+          name: 'Timestamp',
           defType: 'count',
           pattern: '(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4})'
         }
@@ -101,7 +128,7 @@ File.find({}).remove(function() {
       '2015-04-25T11:55:48.508+0500: 4.335: [CMS-concurrent-reset: 0.001/0.001 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]\n' +
       '2015-04-25T11:55:49.204+0500: 5.031: [GC (Allocation Failure) 5.031: [ParNew: 39296K->4352K(39296K), 0.0069660 secs] 51638K->20000K(126720K), 0.0070254 secs] [Times: user=0.02 sys=0.00, real=0.01 secs]\n' +
       '2015-04-25T11:55:50.005+0500: 5.832: [GC (Allocation Failure) 5.832: [ParNew: 39296K->4352K(39296K), 0.0196901 secs] 54944K->28819K(126720K), 0.0197474 secs] [Times: user=0.06 sys=0.00, real=0.02 secs]\n',
-      definitions: ['Java GC']
+      definitions: ['Java GC', 'Timeseries']
     }
   );
 });

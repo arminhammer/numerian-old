@@ -42,16 +42,6 @@
     -->
 
     <div class="row">
-      <div class="caption" style="white-space: pre-line;">
-        <h3>Filter Test</h3>
-        <h3>Title: {{ filteredFile.title }}</h3>
-        <p>Content: <span ng-bind-html="filteredFile.content"></span></p>
-        <p>TestVal: {{ filteredFile.testVal }}</p>
-        <p>Current Filter: {{ filteredFile.currentFilter }}</p>
-      </div>
-    </div>
-
-    <div class="row">
       <div class="thumbnail">
         <div class="caption">
           <h3>Counts</h3>
@@ -72,6 +62,16 @@
                   legend="true" series="filteredFile.result.timeseries.series" click="onClick">
           </canvas>
         </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="caption" style="white-space: pre-line;">
+        <h3>Filter Test</h3>
+        <h3>Title: {{ filteredFile.title }}</h3>
+        <p>Content: <span ng-bind-html="filteredFile.content"></span></p>
+        <p>TestVal: {{ filteredFile.testVal }}</p>
+        <p>Current Filter: {{ filteredFile.currentFilter }}</p>
       </div>
     </div>
 

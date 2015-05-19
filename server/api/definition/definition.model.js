@@ -9,7 +9,11 @@ var DefinitionSchema = new Schema({
   patterns: [{
     name: String,
     defType: String,
-    pattern: String
+    pattern: String,
+    subPatterns: [{
+      position: Number,
+      name: String
+    }]
   }]
 
 });

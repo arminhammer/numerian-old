@@ -59,7 +59,8 @@ angular.module('numerianApp')
               matchCount = matches.length;
 
               output.content = output.content.replace(regex, '<span class="matchText">' + '$&' + '</span>');
-              $log.debug('Replaced!');
+              //$log.debug('Replaced!');
+              $log.debug('Found ' + matchCount + ' matches!');
             }
 
             //var hitKey = patternKey;
