@@ -12,7 +12,7 @@ var Definition = require('../api/definition/definition.model');
 Definition.find({}).remove(function() {
   Definition.create(
     {
-      name: 'test1',
+      name: 'filter1',
       patterns: [
         {
           name: 'Lines',
@@ -23,6 +23,16 @@ Definition.find({}).remove(function() {
           name: 'Object',
           defType: 'count',
           pattern: 'Object'
+        }
+      ]
+    },
+    {
+      name: 'filter2',
+      patterns: [
+        {
+          name: 'Animal',
+          defType: 'count',
+          pattern: 'Animal'
         }
       ]
     },
@@ -45,7 +55,7 @@ File.find({}).remove(function() {
       content: 'Line 1 Object\n' +
       'Line 2 Object\n' +
       'Line 3\n',
-      definition: 'test1'
+      definitions: ['filter1']
     },
     {
       title: 'Log 2',
@@ -53,7 +63,18 @@ File.find({}).remove(function() {
       'Line 5 \n' +
       'Line 6 Object\n' +
       'Line 7 Object\n',
-      definition: 'test1'
+      definitions: ['filter1']
+    },
+    {
+      title: 'Log 3',
+      content: 'Line 4 Object\n' +
+      'Line 5 \n' +
+      'Animal 8\n' +
+      'Animal 9\n' +
+      'Animal 10\n' +
+      'Line 6 Object\n' +
+      'Line 7 Object\n',
+      definitions: ['filter1', 'filter2']
     },
     {
       title: 'WebStorm GC Log',
@@ -80,7 +101,7 @@ File.find({}).remove(function() {
       '2015-04-25T11:55:48.508+0500: 4.335: [CMS-concurrent-reset: 0.001/0.001 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]\n' +
       '2015-04-25T11:55:49.204+0500: 5.031: [GC (Allocation Failure) 5.031: [ParNew: 39296K->4352K(39296K), 0.0069660 secs] 51638K->20000K(126720K), 0.0070254 secs] [Times: user=0.02 sys=0.00, real=0.01 secs]\n' +
       '2015-04-25T11:55:50.005+0500: 5.832: [GC (Allocation Failure) 5.832: [ParNew: 39296K->4352K(39296K), 0.0196901 secs] 54944K->28819K(126720K), 0.0197474 secs] [Times: user=0.06 sys=0.00, real=0.02 secs]\n',
-      definition: 'Java GC'
+      definitions: ['Java GC']
     }
   );
 });

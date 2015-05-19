@@ -7,7 +7,7 @@ var Definition = require('../definition/definition.model');
 var FileSchema = new Schema({
   title: String,
   content: String,
-  definition: { type: String, ref: 'Definition' }
+  definitions: [{ type: String, ref: 'Definition' }]
 });
 
 module.exports = mongoose.model('File', FileSchema);

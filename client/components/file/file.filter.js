@@ -5,7 +5,7 @@
 
 angular.module('numerianApp')
   .filter('fileFilter', ['$log', function($log) {
-    return function(input, filterName) {
+    return function(input, filterArray) {
 
       $log.debug('Filter Log');
       $log.debug(input);
@@ -17,7 +17,7 @@ angular.module('numerianApp')
 
       output.title = 'Filtered ' + input.title;
       output.testVal = 500;
-      output.currentFilter = filterName;
+      output.currentFilter = filterArray[0];
       output.content = input.content;
       output.result = {
         count: {

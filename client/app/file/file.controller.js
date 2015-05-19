@@ -31,7 +31,9 @@ angular.module('numerianApp')
 
         socket.syncUpdates('file', $scope.file);
 
-        $scope.filteredFile = fileFilterFilter($scope.file, $scope.currentFilter);
+        $scope.currentFilter=$scope.file.definition;
+
+        $scope.filteredFile = fileFilterFilter($scope.file, [$scope.currentFilter]);
 
         /*
          DefinitionService.getDefinition($scope.file._id).then(function(definition) {
