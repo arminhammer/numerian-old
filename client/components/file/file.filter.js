@@ -5,7 +5,7 @@
 
 angular.module('numerianApp')
   .filter('fileFilter', ['$log', function($log) {
-    return function(input, filterArray) {
+    return function(input, definitions) {
 
       $log.debug('Filter Log');
       $log.debug(input);
@@ -17,8 +17,104 @@ angular.module('numerianApp')
 
       output.title = 'Filtered ' + input.title;
       output.testVal = 500;
-      output.currentFilter = filterArray[0];
+      output.currentFilter = definitions[0];
       output.content = input.content;
+
+      output.result = {
+        count: {
+          labels: [],
+          series: [],
+          data: []
+        },
+        timeseries: {
+          labels: [],
+          series: [],
+          data: [[]]
+        }
+      };
+
+      $log.debug('Definitions within filter:');
+
+      var patternKey = 0;
+
+      angular.forEach(input.definitions, function(definition) {
+
+        $log.debug(definition);
+
+        $log.debug('Patterns:');
+        angular.forEach(definitions[definition].patterns, function(pattern) {
+
+          $log.debug(pattern);
+
+          if(pattern.defType === 'count') {
+
+            $log.debug('Pattern is a count');
+
+            var regex = new RegExp(pattern.pattern, 'g');
+
+            var matches = input.content.match(regex);
+            var matchCount = 0;
+
+            if(matches) {
+              matchCount = matches.length;
+            }
+
+            //var hitKey = patternKey;
+
+            /*
+            if((hitKey > 0) && (!$scope.results[file.definition].count.hits[0])) {
+              hitKey = 0;
+            }
+
+            if (!$scope.results[file.definition].count.hits[hitKey]) {
+              $scope.results[file.definition].count.hits[hitKey] = [];
+            }
+
+            $scope.results[file.definition].count.hits[hitKey].push(matchCount);
+            */
+
+            var dataArray = [];
+            for(var i = 0; i < patternKey; i++) {
+              dataArray.push(null);
+            }
+            dataArray.push(5);
+
+            $log.debug('dataArray');
+            $log.debug(dataArray);
+
+            output.result.count.labels.push(pattern.name);
+            output.result.count.series.push(pattern.name);
+
+            $log.debug('key: ' + patternKey);
+
+            if(patternKey == 0) {
+              output.result.count.data.push([matchCount]);
+            }
+            else {
+              output.result.count.data[0].push(matchCount);
+            }
+
+            //output.result.count.data = [
+              //[1,2,3]
+            //]
+          }
+
+          if (pattern.defType == 'count') {
+
+            $log.debug('counting...');
+
+          }
+
+          patternKey++;
+
+        });
+
+      });
+
+      $log.debug('Result:');
+      $log.debug(output.result);
+
+      /*
       output.result = {
         count: {
           labels: ['Label A'],
@@ -34,6 +130,7 @@ angular.module('numerianApp')
           ]
         }
       };
+      */
 
       $log.debug('Output');
       $log.debug(output);

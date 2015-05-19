@@ -31,12 +31,27 @@ angular.module('numerianApp')
 
         socket.syncUpdates('file', $scope.file);
 
-        $scope.currentFilter=$scope.file.definition;
+        $scope.currentFilter=$scope.file.definitions;
 
-        $scope.filteredFile = fileFilterFilter($scope.file, [$scope.currentFilter]);
+        DefinitionService.getDefinitions().then(function(definitions) {
+
+          $log.debug('Definitions:');
+          $log.debug(definitions.data);
+
+          $scope.definitions = definitions.data;
+
+          $scope.filteredFile = fileFilterFilter($scope.file, $scope.definitions);
+
+        });
 
         /*
-         DefinitionService.getDefinition($scope.file._id).then(function(definition) {
+         DefinitionService.getDefinition($stateParams.fileId).then(function(definition) {
+
+           $log.debug('Definitions2:');
+           $log.debug(definition);
+
+
+         });
 
          //$scope.file.result = result;
 
