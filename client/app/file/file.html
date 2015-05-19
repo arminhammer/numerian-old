@@ -16,7 +16,7 @@
         <button ngf-select="" ng-model="uploads" ngf-multiple="true">Attach Any File</button><br>
 
         Drop File:
-        <div ngf-drop ng-model="uploads" class="drop-box"
+          <div ngf-drop ng-model="uploads" class="drop-box"
              ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
              ngf-accept="'.jpg,.png,.pdf'">Drop Images or PDFs uploads here</div>
         <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
@@ -45,7 +45,7 @@
       <div class="caption" style="white-space: pre-line;">
         <h3>Filter Test</h3>
         <h3>Title: {{ filteredFile.title }}</h3>
-        <p>Content: {{ filteredFile.content }}</p>
+        <p>Content: <span ng-bind-html="filteredFile.content"></span></p>
         <p>TestVal: {{ filteredFile.testVal }}</p>
         <p>Current Filter: {{ filteredFile.currentFilter }}</p>
       </div>

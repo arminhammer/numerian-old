@@ -52,11 +52,14 @@ angular.module('numerianApp')
 
             var regex = new RegExp(pattern.pattern, 'g');
 
-            var matches = input.content.match(regex);
+            var matches = output.content.match(regex);
             var matchCount = 0;
 
             if(matches) {
               matchCount = matches.length;
+
+              output.content = output.content.replace(regex, '<span class="matchText">' + '$&' + '</span>');
+              $log.debug('Replaced!');
             }
 
             //var hitKey = patternKey;
